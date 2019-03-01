@@ -19,8 +19,7 @@ d3.json("https://raw.githubusercontent.com/JoonasHeinonen/presidents.json/master
                     .range([0, width]);
 
     var color = d3.scale.linear()
-                    .domain([0, 60])
-                    .range(["#e3ccff", "#7700ff"]);
+                    .domain([0, 60]);
 
     var canvas = d3.select("body").append("svg")
                     .attr("width", width)
@@ -33,7 +32,7 @@ d3.json("https://raw.githubusercontent.com/JoonasHeinonen/presidents.json/master
                         .append("rect")
                         .attr("width", function (d) { return widthScale(d.years_in_office); })
                         .attr("height", 32)
-                        .attr("fill", function (d) { return color(d.years_in_office); })
+                        .attr("fill", COLORCODE)
                         .attr("y", function (d, i) { return i * 40; })
                         .attr("x", 0);
 
@@ -44,8 +43,8 @@ d3.json("https://raw.githubusercontent.com/JoonasHeinonen/presidents.json/master
                         .attr("fill", "white")
                         .attr("x", function (d, i) { return i + 8; })
                         .attr("y", function (d, i) { return i * 40 + 22; })
-                        .text(function (d) { return d.name + " (" + d.years_in_office + " years)"; });
-
+                        .text(function (d) { return d.name + "\t(" + d.starting_year + " - " + d.last_year + ")"; });
+    // + " (" + d.years_in_office + " years)"
     var borderPath = canvas.append("rect")
                     .attr("fill", "pink")
                     .attr("x", 0)
