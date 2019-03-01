@@ -31,9 +31,9 @@ d3.json("presidents.json", function(data) {
                     .data(data)
                     .enter()
                         .append("rect")
-                        .attr("width", function (d) { return widthScale(d.presidents.years_in_office); })
+                        .attr("width", function (d) { return widthScale(d.years_in_office); })
                         .attr("height", 32)
-                        .attr("fill", function (d) { return color(d.presidents.years_in_office); })
+                        .attr("fill", function (d) { return color(d.years_in_office); })
                         .attr("y", function (d, i) { return i * 40; })
                         .attr("x", 0);
 
@@ -44,7 +44,7 @@ d3.json("presidents.json", function(data) {
                         .attr("fill", "white")
                         .attr("x", function (d, i) { return i + 8; })
                         .attr("y", function (d, i) { return i * 40 + 22; })
-                        .text(function (d) { return d.presidents.name + " (" + d.presidents.years_in_office + " years)"; });
+                        .text(function (d) { return d.name + " (" + d.years_in_office + " years)"; });
 
     var borderPath = canvas.append("rect")
                     .attr("fill", "pink")
