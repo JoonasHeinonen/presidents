@@ -1,3 +1,5 @@
+const COLORCODE = "#55ACEE";
+
 d3.json("presidents.json", function(data) {
     // Initialize the height and with of svg-body
     let width = 600, height = 800;
