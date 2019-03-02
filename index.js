@@ -1,71 +1,86 @@
 const COLORCODE = "#55ACEE";
 
+// The source code for this algorithm is from this website: http://bl.ocks.org/Caged/6476579
 d3.json("https://raw.githubusercontent.com/JoonasHeinonen/presidents.json/master/presidents.json", function(data) {
-    // Initialize the height and with of svg-body
-    let width = 600, height = 800;
+    var margin = {top: 80, right: 10, bottom: 30, left: 20},
+                width = 1600 - margin.left - margin.right,
+                height = 640 - margin.top - margin.bottom;
+            
+    d3.select("body").append('h1').text('List of the former presidents of Finland and their time in the office: ');
 
-    // Initialize the variables needed for border
-    let padding = 20;
-    let border = 1;
-    let bordercolor = 'black';
+    var format = d3.format(".0");
+
+    var x = d3.scale.ordinal()
+        .rangeRoundBands([0, width], .1);
+
+    var y = d3.scale.linear()
+        .range([height, 0]);
+
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left")
+        .tickFormat(format);
 
     var tip = d3.tip()
-                .attr('class', 'd3-tip')
-                .offset([-10, 0])
-                .html(function(d) {
-                    return "<strong>Name:</strong> <span style='color:red'>" + d.name + "</span><br>" +
-                           "<strong>Party:</strong> <span style='color:red'>" + d.party + "</span><br>" +
-                           "<strong>Years in office:</strong> <span style='color:red'>" + d.years_in_office + "</span><br>" +
-                           "<strong>ID:</strong> <span style='color:red'>" + d.president_id + "</span><br>";
-            });
+        .attr('class', 'd3-tip')
+        .offset([-10, 0])
+        .html(function(d) {
+            return "<strong>Name:</strong> <span style='color:red'>" + d.name + "</span><br>" +
+                    "<strong>Party:</strong> <span style='color:red'>" + d.party + "</span><br>" +
+                    "<strong>Years in office:</strong> <span style='color:red'>" + d.years_in_office + "</span><br>" +
+                    "<strong>ID:</strong> <span style='color:red'>" + d.president_id + "</span><br>";
+    })
 
-    var message = d3.select("body").append("p")
-                    .text("List of the former presidents of Finland and their time in the office: ")
-                    .attr("x", 4)
-                    .attr("width", width);
-
-    var widthScale = d3.scale.linear()
-                    .domain([0, 60])
-                    .range([0, width]);
-
-    var color = d3.scale.linear()
-                    .domain([0, 60]);
-
-    var canvas = d3.select("body").append("svg")
-                    .attr("width", width)
-                    .attr("height", height)
-                    .attr("class", "graph-svg-component");
+    var svg = d3.select("body").append("svg")
+        .attr("width", width + margin.left + margin.right * 2)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left * 2 + "," + margin.top + ")");
     
-    canvas.call(tip);
-                
-    var bars = canvas.selectAll("rect")
-                    .data(data)
-                    .enter()
-                        .append("rect")
-                        .attr("width", function (d) { return widthScale(d.years_in_office); })
-                        .attr("height", 32)
-                        .attr("fill", COLORCODE)
-                        .attr("y", function (d, i) { return i * 40; })
-                        .attr("x", 0)
-                        .on('mouseover', tip.show)
-                        .on('mouseout', tip.hide);
+    svg.call(tip);
 
-    canvas.selectAll("text")
-                    .data(data)
-                    .enter()
-                        .append("text")
-                        .attr("fill", "white")
-                        .attr("x", function (d, i) { return i + 8; })
-                        .attr("y", function (d, i) { return i * 40 + 22; })
-                        .text(function (d) { return d.president_id + ". " + d.name + "\t(" + d.starting_year + " - " + d.last_year + ")"; });
-    // + " (" + d.years_in_office + " years)"
-    var borderPath = canvas.append("rect")
-                    .attr("fill", "pink")
-                    .attr("x", 0)
-                    .attr("y", 0)
-                    .attr("height", height)
-                    .attr("width", width)
-                    .style("stroke", bordercolor)
-                    .style("fill", "none")
-                    .style("stroke-width", border);
+    d3.tsv("data/data.tsv", type, function(error, data) {
+        x.domain(data.map(function(d) { return d.president_id; }));
+        y.domain([0, d3.max(data, function(d) { return d.years_in_office; })]);
+
+        svg.append("rect")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("fill", "white");
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("URL Count");
+
+        svg.selectAll(".bar")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function(d) { return x(d.president_id); })
+            .attr("width", x.rangeBand())
+            .attr("y", function(d) { return y(d.years_in_office); })
+            .attr("height", function(d) { return height - y(d.years_in_office); })
+            .on('mouseover', tip.show)
+            .on('mouseout', tip.hide);
+    });
+
+    function type(d) {
+        d.years_in_office = +d.years_in_office;
+        return d;
+    }
 });
