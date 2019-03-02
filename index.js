@@ -2,15 +2,15 @@ const COLORCODE = "#55ACEE";
 
 // The source code for this algorithm is from this website: http://bl.ocks.org/Caged/6476579
 var margin = {top: 80, right: 10, bottom: 30, left: 20},
-            width = 1600 - margin.left - margin.right,
-            height = 640 - margin.top - margin.bottom;
+            width = 600 - margin.left - margin.right,
+            height = 600 - margin.top - margin.bottom;
         
 d3.select("body").append('h1').text('List of the former presidents of Finland and their time in the office: ');
 
 var format = d3.format(".0");
 
 var x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], 0.1);
+    .rangeRoundBands([0, width], 0.2);
 
 var y = d3.scale.linear()
     .range([height, 0]);
@@ -26,6 +26,7 @@ var yAxis = d3.svg.axis()
 
 var tip = d3.tip()
     .attr('class', 'd3-tip')
+    .attr('margin', 6)
     .offset([-10, 0])
     .html(function(d) {
         return  '<img src="https://raw.githubusercontent.com/JoonasHeinonen/presidents.json/master/images/' + d.image +  '"width="175" height="210"></img><br>' + 
@@ -38,7 +39,7 @@ var tip = d3.tip()
 });
 
 var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
+    .attr("width", width)
     .attr("height", height + margin.top + margin.bottom * 2)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
