@@ -1,4 +1,4 @@
 # PRESIDENTS - README
 
-A repository for presidents.json which I'm going to access through a D3.js application via computer.
-This particular application will be uploaded on GitHub at some point.
+A repository for an application that connects the tsv file in presidents.json. (https://github.com/JoonasHeinonen/presidents.json)
+This application visualizes the data using D3.js library for JavaScript.

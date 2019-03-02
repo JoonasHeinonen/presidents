@@ -38,10 +38,10 @@ var tip = d3.tip()
 });
 
 var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right * 2)
+    .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom * 2)
     .append("g")
-    .attr("transform", "translate(" + margin.left * 2 + "," + margin.top + ")");
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 svg.call(tip);
 
