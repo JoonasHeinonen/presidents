@@ -1,5 +1,26 @@
-* {
-    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+body {
+    font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.bar {
+    fill: #5495ff;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.bar:hover {
+    fill: #91bbff;
+}
+
+.x.axis path {
+    display: none;
 }
 
 .d3-tip {
