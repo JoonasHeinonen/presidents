@@ -43,7 +43,7 @@ d3.json("https://raw.githubusercontent.com/JoonasHeinonen/presidents.json/master
                         .attr("fill", "white")
                         .attr("x", function (d, i) { return i + 8; })
                         .attr("y", function (d, i) { return i * 40 + 22; })
-                        .text(function (d) { return d.name + "\t(" + d.starting_year + " - " + d.last_year + ")"; });
+                        .text(function (d) { return d.president_id + ". " + d.name + "\t(" + d.starting_year + " - " + d.last_year + ")"; });
     // + " (" + d.years_in_office + " years)"
     var borderPath = canvas.append("rect")
                     .attr("fill", "pink")
