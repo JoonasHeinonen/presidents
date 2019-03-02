@@ -28,7 +28,8 @@ var tip = d3.tip()
     .attr('class', 'd3-tip')
     .offset([-10, 0])
     .html(function(d) {
-        return "<strong>Name:</strong> <span style='color:red'>" + d.name + "</span><br>" +
+        return  '<img src="https://github.com/JoonasHeinonen/presidents.json/blob/master/images/' + d.image +  '"></img><br>' + 
+                "<strong>Name:</strong> <span style='color:red'>" + d.name + "</span><br>" +
                 "<strong>Party:</strong> <span style='color:red'>" + d.party + "</span><br>" +
                 "<strong>Years in office:</strong> <span style='color:red'>" + d.years_in_office + "</span><br>" +
                 "<strong>ID:</strong> <span style='color:red'>" + d.president_id + "</span><br>";
