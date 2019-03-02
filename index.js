@@ -29,17 +29,17 @@ var tip = d3.tip()
     .offset([-10, 0])
     .html(function(d) {
         return  '<img src="https://raw.githubusercontent.com/JoonasHeinonen/presidents.json/master/images/' + d.image +  '"width="175" height="210"></img><br>' + 
-                "<strong>Name:</strong> <span style='color:red'>" + d.name + "</span><br>" +
-                "<strong>Party:</strong> <span style='color:red'>" + d.party + "</span><br>" +
-                "<strong>Starting year:</strong> <span style='color:red'>" + d.starting_year + "</span><br>" +
-                "<strong>Starting year:</strong> <span style='color:red'>" + d.last_year + "</span><br>" +
-                "<strong>Years in office:</strong> <span style='color:red'>" + d.years_in_office + "</span><br>" +
-                "<strong>ID:</strong> <span style='color:red'>" + d.president_id + "</span><br>";
+                "<strong>Name:</strong> <span style='color:" + COLORCODE + "'>" + d.name + "</span><br>" +
+                "<strong>Party:</strong> <span style='color:" + COLORCODE + "'>" + d.party + "</span><br>" +
+                "<strong>Starting year:</strong> <span style='color:" + COLORCODE + "'>" + d.starting_year + "</span><br>" +
+                "<strong>Last year:</strong> <span style='color:" + COLORCODE + "'>" + d.last_year + "</span><br>" +
+                "<strong>Years in office:</strong> <span style='color:" + COLORCODE + "'>" + d.years_in_office + "</span><br>" +
+                "<strong>Presidential Order:</strong> <span style='color:" + COLORCODE + "'>" + d.president_id + "</span><br>";
 });
 
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right * 2)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("height", height + margin.top + margin.bottom * 2)
     .append("g")
     .attr("transform", "translate(" + margin.left * 2 + "," + margin.top + ")");
 
@@ -57,7 +57,12 @@ d3.tsv("https://raw.githubusercontent.com/JoonasHeinonen/presidents.json/master/
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+        .call(xAxis)
+        .append("text")
+        .attr("y", 30)
+        .attr("dy", ".10em")
+        .style("text-anchor", "start")
+        .text("Presidential Order");
 
     svg.append("g")
         .attr("class", "y axis")
